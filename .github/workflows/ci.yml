@@ -6,102 +6,27 @@ on:
   pull_request:
     branches: [main]
 
+# Note: Submodule repos are private. CI runs in each submodule repo separately.
+# This workflow validates monorepo-level files only.
+
 jobs:
-  backend:
-    name: Backend Tests & Typecheck
+  validate:
+    name: Validate Monorepo
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: backend
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          submodules: recursive
 
-      - name: Setup Bun
-        uses: oven-sh/setup-bun@v2
-        with:
-          bun-version: latest
-
-      - name: Install dependencies
-        run: bun install
-
-      - name: Typecheck
-        run: bun run typecheck
-
-      - name: Run tests
-        run: bun test
-        env:
-          # Minimal env vars for tests
-          SOLANA_RPC_URL: https://api.devnet.solana.com
-          PROGRAM_ID: TRDXCHHWWZdQXxkGFJxek1KU2hn19687xztNBy99Ca1
-          ADMIN_PASSWORD: test_password_only
-          KEYPAIR_PATH: ./test-keypair.json
-
-  frontend:
-    name: Frontend Tests & Typecheck
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: frontend
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          submodules: recursive
-
-      - name: Setup Bun
-        uses: oven-sh/setup-bun@v2
-        with:
-          bun-version: latest
-
-      - name: Install dependencies
-        run: bun install
-
-      - name: Run tests
-        run: bun test
-        env:
-          BUN_PUBLIC_BACKEND_URL: http://localhost:3000
-          BUN_PUBLIC_SOLANA_NETWORK: devnet
-
-  program:
-    name: Program Build & Test
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: program
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          submodules: recursive
-
-      - name: Setup Bun
-        uses: oven-sh/setup-bun@v2
-        with:
-          bun-version: latest
-
-      - name: Install Rust
-        uses: dtolnay/rust-action@stable
-
-      - name: Install Solana CLI
+      - name: Check required files exist
         run: |
-          sh -c "$(curl -sSfL https://release.anza.xyz/stable/install)"
-          echo "$HOME/.local/share/solana/install/active_release/bin" >> $GITHUB_PATH
+          test -f CLAUDE.md || (echo "Missing CLAUDE.md" && exit 1)
+          test -f .env.example || (echo "Missing .env.example" && exit 1)
+          test -f package.json || (echo "Missing package.json" && exit 1)
+          echo "All required files present"
 
-      - name: Install dependencies
-        run: bun install
-
-      - name: Build program
-        run: cargo build-sbf
-        env:
-          CARGO_TERM_COLOR: always
-
-      - name: Run Rust tests
-        run: cargo test
-        env:
-          CARGO_TERM_COLOR: always
+      - name: Validate .gitmodules
+        run: |
+          test -f .gitmodules || (echo "Missing .gitmodules" && exit 1)
+          echo "Submodules configured:"
+          cat .gitmodules
