@@ -5,13 +5,13 @@
   "workspaces": ["backend", "frontend", "mcp-server", "program"],
   "scripts": {
     "install:all": "bun install",
-    "dev": "bun run --parallel --filter 'backend' --filter 'frontend' dev",
+    "dev": "bun run --parallel --filter 'tradex-backend' --filter 'tradex-frontend' dev",
     "dev:backend": "bun run --cwd backend dev",
     "dev:frontend": "bun run --cwd frontend dev",
     "build": "bun run --filter '*' build",
     "build:frontend": "bun run --cwd frontend build",
     "build:program": "cd program && ./scripts/build.sh",
-    "start": "bun run --parallel --filter 'backend' --filter 'frontend' start",
+    "start": "bun run --parallel --filter 'tradex-backend' --filter 'tradex-frontend' start",
     "start:backend": "bun run --cwd backend start",
     "start:frontend": "bun run --cwd frontend preview"
   }
