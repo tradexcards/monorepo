@@ -1,0 +1,18 @@
+[submodule "program"]
+	path = program
+	url = git@github.com:tradexcards/perp-program.git
+[submodule "backend"]
+	path = backend
+	url = git@github.com:tradexcards/backend.git
+[submodule "frontend"]
+	path = frontend
+	url = git@github.com:tradexcards/frontend.git
+[submodule "mcp-server"]
+	path = mcp-server
+	url = git@github.com:tradexcards/mcp.git
+[submodule "SKILL"]
+	path = SKILL
+	url = git@github.com:tradexcards/SKILL.git
+[submodule "APIs"]
+	path = APIs
+	url = git@github.com:tradexcards/APIs.git

@@ -1,0 +1,51 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+.ruff_cache
+
+
+*.log
+.DS_Store
+
+.env
+backend/app/data/cache/*
+
+archives
+archives_json
+
+**/*/archives
+**/*/archives_json
+
+.env
+.env.devnet
+.env.mainnet
+
+keypair.json
+keypair-mainnet.json
+mainnet-program-keypair.json
+mainnet-keeper-keypair.json
+
+brightdata_proxy_ca
+
+node_modules
+
+# Program build artifacts
+program/target/
+program/.anchor/
+
+# Reference library sources (symlinks to cargo registry, development only)
+_pinocchio_src
+_pinocchio_system_src
+_pinocchio_token_src
+_solana_account_view_src
+_solana_instruction_view_src
+
+# Temp scripts
+tmp/
